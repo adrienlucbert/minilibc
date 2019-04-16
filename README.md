@@ -53,7 +53,7 @@ Also, the buffer being allocated (if used), it needs to be freed. To do this, th
 #### From the <string.h>
 :heavy_check_mark: void *my_memchr(const void *str, int c)\
 :heavy_check_mark: void *my_memnchr(const void *str, int c, size_t n)\
-:heavy_check_mark: char *my_strchr(char const *s, int c);
+:heavy_check_mark: char *my_strchr(char const *s, int c)\
 :heavy_check_mark: char *my_strnchr(char const *s, int c, size_t n)\
 :heavy_check_mark: int my_memcmp(void const *s1, void const *s1)\
 :heavy_check_mark: int my_memncmp(void const *s1, void const *s2, size_t n)\
