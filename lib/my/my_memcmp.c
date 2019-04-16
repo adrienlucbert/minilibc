@@ -7,12 +7,17 @@
 
 #include "my.h"
 
-int my_memcmp(const void *str1, const void *str2, size_t n)
+int my_memcmp(const void *s1, const void *s2)
 {
-    char *p1 = (char *)str1;
-    char *p2 = (char *)str2;
+    return (my_memncmp(s1, s2, -1));
+}
 
-    if (!str1 || !str2)
+int my_memncmp(const void *s1, const void *s2, size_t n)
+{
+    char *p1 = (char *)s1;
+    char *p2 = (char *)s2;
+
+    if (!s1 || !s2)
         return (-1);
     else if (n == 0)
         return (0);

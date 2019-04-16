@@ -7,7 +7,7 @@
 
 #include "my.h"
 
-void *my_memdup(const void *src, size_t n)
+void *my_memndup(const void *src, size_t n)
 {
     int len = 0;
     void *dest = NULL;
@@ -19,6 +19,11 @@ void *my_memdup(const void *src, size_t n)
         dest = my_calloc(n + 1, sizeof(char));
     }
     if (dest)
-        my_memcpy(dest, src, n);
+        my_memncpy(dest, src, n);
     return (dest);
+}
+
+void *my_memdup(const void *src)
+{
+    return (my_memndup(src, -1));
 }

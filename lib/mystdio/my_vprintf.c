@@ -8,7 +8,7 @@
 #include "my.h"
 #include "mystdio.h"
 
-int my_vprintf_concat_s(va_list ap)
+static int my_vprintf_concat_s(va_list ap)
 {
     char *arg = va_arg(ap, char *);
     int arg_len = 0;
@@ -20,7 +20,7 @@ int my_vprintf_concat_s(va_list ap)
     return (arg_len);
 }
 
-int my_vprintf_concat_di(va_list ap)
+static int my_vprintf_concat_di(va_list ap)
 {
     int arg = va_arg(ap, int);
     int size = 1;
@@ -44,7 +44,7 @@ int my_vprintf_concat_di(va_list ap)
     return (size);
 }
 
-int my_vprintf_concat_c(va_list ap)
+static int my_vprintf_concat_c(va_list ap)
 {
     char arg = va_arg(ap, int);
     int str_len = 0;
@@ -58,6 +58,7 @@ int my_vprintf_concat_c(va_list ap)
 int my_vprintf_concat(char spec, va_list ap)
 {
     char *flags = "sdic";
+    char *flagptr = my_memchr(flags, spec);
     int index = -1;
     int (*concat_fns[4])(va_list);
 
@@ -65,8 +66,9 @@ int my_vprintf_concat(char spec, va_list ap)
     concat_fns[1] = my_vprintf_concat_di;
     concat_fns[2] = my_vprintf_concat_di;
     concat_fns[3] = my_vprintf_concat_c;
-    if (my_memchr("sdic", spec, -1)) {
-        index = (char *)my_memchr(flags, spec, -1) - flags;
+    
+    if (flagptr) {
+        index = flagptr - flags;
         return (concat_fns[index](ap));
     } else {
         my_iob_putc('%');

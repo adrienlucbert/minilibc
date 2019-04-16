@@ -8,7 +8,7 @@
 #include "my.h"
 #include "mystdio.h"
 
-int my_vsnprintf_concat_s(char *str, size_t size, va_list ap)
+static int my_vsnprintf_concat_s(char *str, size_t size, va_list ap)
 {
     char *arg = va_arg(ap, char *);
     char *ptr = str;
@@ -25,7 +25,7 @@ int my_vsnprintf_concat_s(char *str, size_t size, va_list ap)
     return (len);
 }
 
-int my_vsnprintf_concat_di(char *str, size_t size, va_list ap)
+static int my_vsnprintf_concat_di(char *str, size_t size, va_list ap)
 {
     char *arg = my_itoa(va_arg(ap, int));
     int arg_len = 0;
@@ -33,21 +33,21 @@ int my_vsnprintf_concat_di(char *str, size_t size, va_list ap)
 
     if (!arg)
         return (0);
-    arg_len = my_memlen(arg, sizeof(char));
-    str_len = my_memlen(str, sizeof(char));
-    my_memcpy(str + str_len, arg, arg_len);
+    arg_len = my_strlen(arg);
+    str_len = my_strlen(str);
+    my_memncpy(str + str_len, arg, arg_len);
     free(arg);
     return (arg_len);
 }
 
-int my_vsnprintf_concat_c(char *str, size_t size, va_list ap)
+static int my_vsnprintf_concat_c(char *str, size_t size, va_list ap)
 {
     char arg = va_arg(ap, int);
     int str_len = 0;
 
     if (!arg)
         return (0);
-    str_len = my_memlen(str, sizeof(char));
+    str_len = my_strlen(str);
     if (size > 0)
         str[str_len] = arg;
     return (size > 0);
@@ -55,7 +55,7 @@ int my_vsnprintf_concat_c(char *str, size_t size, va_list ap)
 
 int my_vsnprintf_concat_data(char *str, size_t size, char spec, va_list ap)
 {
-    int len = my_memlen(str, sizeof(char));
+    int len = my_strlen(str);
     char *flags = "sdic";
     int index = -1;
     int (*concat_fns[4])(char *, size_t, va_list);
@@ -64,8 +64,8 @@ int my_vsnprintf_concat_data(char *str, size_t size, char spec, va_list ap)
     concat_fns[1] = my_vsnprintf_concat_di;
     concat_fns[2] = my_vsnprintf_concat_di;
     concat_fns[3] = my_vsnprintf_concat_c;
-    if (my_memchr("sdic", spec, -1)) {
-        index = (char *)my_memchr(flags, spec, -1) - flags;
+    if (my_memchr("sdic", spec)) {
+        index = (char *)my_memchr(flags, spec) - flags;
         return (concat_fns[index](str, size, ap));
     } else {
         if ((size_t)(len) <= size);

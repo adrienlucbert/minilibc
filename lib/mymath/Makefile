@@ -28,9 +28,9 @@ CFLAGS	=	-I../../include
 NAME	=	libmyth.a
 PATHNAME=	../$(NAME)
 
-all:	$(NAME)
+all:	$(PATHNAME)
 
-$(NAME):	$(OBJ)
+$(PATHNAME):	$(OBJ)
 	cp mymath.h ../../include
 	ar rc $(PATHNAME) $(OBJ)
 

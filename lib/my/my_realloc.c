@@ -13,7 +13,7 @@ void *my_realloc(void *ptr, size_t size)
 
     my_memset(dest, 0, size);
     if (dest)
-        my_memcpy(dest, ptr, size);
+        my_memncpy(dest, ptr, size);
     free(ptr);
     return (dest);
 }

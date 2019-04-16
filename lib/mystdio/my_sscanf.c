@@ -8,7 +8,7 @@
 #include "my.h"
 #include "mystdio.h"
 
-int scan_s(char const *format, char const **str, va_list ap)
+static int my_scan_s(char const *format, char const **str, va_list ap)
 {
     char *ptr = va_arg(ap, char *);
     char delim = format[1];
@@ -22,7 +22,7 @@ int scan_s(char const *format, char const **str, va_list ap)
     return (1);
 }
 
-int scan_di(char const *format, char const **str, va_list ap)
+static int my_scan_di(char const *format, char const **str, va_list ap)
 {
     int *ptr = va_arg(ap, int *);
     int nbr = 0;
@@ -41,7 +41,7 @@ int scan_di(char const *format, char const **str, va_list ap)
     return (1);
 }
 
-int scan_c(char const *format, char const **str, va_list ap)
+static int my_scan_c(char const *format, char const **str, va_list ap)
 {
     char *ptr = va_arg(ap, char *);
 
@@ -50,20 +50,20 @@ int scan_c(char const *format, char const **str, va_list ap)
     return (1);
 }
 
-int scan(char const *format, char const **str, va_list ap)
+static int my_scan(char const *format, char const **str, va_list ap)
 {
     char *flags = "sdic";
     char spec = format[0];
     int index = -1;
-    int (*scan_fns[4])(char const *, char const **, va_list ap);
+    int (*my_scan_fns[4])(char const *, char const **, va_list ap);
 
-    scan_fns[0] = scan_s;
-    scan_fns[1] = scan_di;
-    scan_fns[2] = scan_di;
-    scan_fns[3] = scan_c;
-    if (my_memchr("sdic", spec, -1)) {
-        index = (char *)my_memchr(flags, spec, -1) - flags;
-        return (scan_fns[index](format, str, ap) > 0);
+    my_scan_fns[0] = my_scan_s;
+    my_scan_fns[1] = my_scan_di;
+    my_scan_fns[2] = my_scan_di;
+    my_scan_fns[3] = my_scan_c;
+    if (my_memchr("sdic", spec)) {
+        index = (char *)my_memchr(flags, spec) - flags;
+        return (my_scan_fns[index](format, str, ap) > 0);
     } else {
         return (0);
     }
@@ -77,7 +77,7 @@ int my_sscanf(const char *str, const char *format, ...)
     va_start(ap, format);
     while (status != -1 && *format) {
         if (*format == '%' && format[1] != '\0') {
-            status += scan(&format[1], &str, ap);
+            status += my_scan(&format[1], &str, ap);
             format += 2;
         } else if (*format == *str) {
             ++format;

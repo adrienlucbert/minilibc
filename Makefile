@@ -22,7 +22,7 @@ all:	makedeps	$(NAME)
 
 makedeps:
 	@for dep in $(DEPS);do\
-		make -C $$dep;\
+		$(MAKE) -C $$dep;\
 	done
 
 $(NAME):	$(OBJ)
@@ -30,16 +30,19 @@ $(NAME):	$(OBJ)
 
 clean:
 	@for dep in $(DEPS);do\
-		make clean -C $$dep;\
+		$(MAKE) clean -C $$dep;\
 	done
 	rm -f $(OBJ)
 
 fclean:	clean
 	@for dep in $(DEPS);do\
-		make fclean -C $$dep;\
+		$(MAKE) fclean -C $$dep;\
 	done
 	rm -f $(NAME)
 
+tests_run:
+	$(MAKE) -C tests
+
 re:	fclean all
 
-.PHONY:	all clean fclean re
+.PHONY:	all clean fclean tests_run re

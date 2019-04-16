@@ -7,7 +7,12 @@
 
 #include "my.h"
 
-void *my_memcpy(void *dest, const void *src, size_t n)
+void *my_memcpy(void *dest, const void *src)
+{
+    return (my_memncpy(dest, src, -1));
+}
+
+void *my_memncpy(void *dest, const void *src, size_t n)
 {
     size_t index = 0;
     char *c_src = (char *)src;

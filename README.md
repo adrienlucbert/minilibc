@@ -12,7 +12,7 @@ I don't aim to recode the entire libC, that's why I haven't listed every single 
 Functions from the the <math.h> have mostly been approximated using the Taylor Series. In the *bonus* directory, you will find evaluation functions, which give you the error rate for each implemented function.
 
 #### <mystdio.h>
-In order to reproduce the buffered functions from <stdio.h> (such as printf), I have mimed the functioning of the former libC's FILE struct. According to the *Second Edition of The C Programming Language*, by KERNIGHAN and RITCHIE, it used to look like :
+In order to reproduce the buffered functions from <stdio.h> (such as printf), I have mimed the functioning of the former libC's FILE struct. According to page 176 of the *Second Edition of The C Programming Language*, by KERNIGHAN and RITCHIE, it used to look like :
 ```
 typedef struct iobuf {
     int cnt; /* characters left */
@@ -51,15 +51,29 @@ Also, the buffer being allocated (if used), it needs to be freed. To do this, th
 :heavy_check_mark: void *my_realloc(void *ptr, size_t size)
 
 #### From the <string.h>
-:heavy_check_mark: void *my_memchr(const void *str, int c, size_t n)\
-:heavy_check_mark: int my_memcmp(const void *str1, const void *str2, size_t n)\
-:heavy_check_mark: void *my_memcpy(void *dest, const void *src, size_t n)\
+:heavy_check_mark: void *my_memchr(const void *str, int c)\
+:heavy_check_mark: void *my_memnchr(const void *str, int c, size_t n)\
+:heavy_check_mark: char *my_strchr(char const *s, int c);
+:heavy_check_mark: char *my_strnchr(char const *s, int c, size_t n)\
+:heavy_check_mark: int my_memcmp(void const *s1, void const *s1)\
+:heavy_check_mark: int my_memncmp(void const *s1, void const *s2, size_t n)\
+:heavy_check_mark: int my_strcmp(void const *s1, void const *s2)\
+:heavy_check_mark: int my_strncmp(void const *s1, void const *s2, size_t n)\
+:heavy_check_mark: void *my_memcpy(void *dest, void const *src)\
+:heavy_check_mark: void *my_memncpy(void *dest, void const *src, size_t n)\
+:heavy_check_mark: char *my_strcpy(char *dest, char const *src)\
+:heavy_check_mark: char *my_strncpy(char *dest, char const *src, size_t n)\
 :heavy_check_mark: void *my_memset(void *str, int c, size_t n)\
-:heavy_check_mark: int my_memlen(const void *ptr, size_t size)\
-:heavy_check_mark: void *my_memdup(const void *src, size_t n)\
+:heavy_check_mark: size_t my_memlen(void const *ptr, size_t size)\
+:heavy_check_mark: size_t my_strlen(char const *s)\
+:heavy_check_mark: void *my_memdup(void const *src)\
+:heavy_check_mark: void *my_memndup(void const *src, size_t n)\
+:heavy_check_mark: char *my_strdup(char const *src)\
+:heavy_check_mark: char *my_strndup(char const *src, size_t n)\
 :heavy_check_mark: void *my_memcat(void *dest, void const *src)\
-:heavy_check_mark: void *my_memchr(const void *s, int c, size_t n)\
-:heavy_check_mark: void *my_memmem(void const *hay, size_t h_len, void const *nee, size_t n_len)
+:heavy_check_mark: char *my_memcat(char *dest, char const *src)\
+:heavy_check_mark: void *my_memmem(void const *hay, size_t h_len, void const *nee, size_t n_len)\
+:heavy_check_mark: char *my_strstr(char const *haystack, char const *needle)
 
 #### From the <stdio.h>
 :heavy_check_mark: int my_putchar(char c) **(using write)**\

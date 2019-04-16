@@ -7,7 +7,12 @@
 
 #include "my.h"
 
-void *my_memchr(const void *str, int c, size_t n)
+void *my_memchr(const void *str, int c)
+{
+    return (my_memnchr(str, c, -1));
+}
+
+void *my_memnchr(const void *str, int c, size_t n)
 {
     char *c_s = (char *)str;
     size_t index = 0;

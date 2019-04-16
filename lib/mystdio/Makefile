@@ -23,9 +23,9 @@ PATHNAME	=	../$(NAME)
 
 CFLAGS		=	-I../../include
 
-all:	$(NAME)
+all:	$(PATHNAME)
 
-$(NAME):	$(OBJ)
+$(PATHNAME):	$(OBJ)
 	cp mystdio.h ../../include
 	ar rc $(PATHNAME) $(OBJ)
 

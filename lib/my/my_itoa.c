@@ -14,7 +14,7 @@ char *my_itoa(int nb)
     int len = 0;
 
     if (nb == 0)
-        return (my_memdup("0", sizeof(char)));
+        return (my_strdup("0"));
     while (tmp >= 10) {
         tmp /= 10;
         ++len;

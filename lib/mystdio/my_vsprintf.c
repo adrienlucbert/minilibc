@@ -8,7 +8,7 @@
 #include "my.h"
 #include "mystdio.h"
 
-int my_vsprintf_concat_s(char *str, va_list ap)
+static int my_vsprintf_concat_s(char *str, va_list ap)
 {
     char *arg = va_arg(ap, char *);
     char *ptr = str;
@@ -25,7 +25,7 @@ int my_vsprintf_concat_s(char *str, va_list ap)
     return (len);
 }
 
-int my_vsprintf_concat_di(char *str, va_list ap)
+static int my_vsprintf_concat_di(char *str, va_list ap)
 {
     char *arg = my_itoa(va_arg(ap, int));
     int arg_len = 0;
@@ -35,12 +35,12 @@ int my_vsprintf_concat_di(char *str, va_list ap)
         return (0);
     arg_len = my_memlen(arg, sizeof(char));
     str_len = my_memlen(str, sizeof(char));
-    my_memcpy(str + str_len, arg, arg_len);
+    my_memncpy(str + str_len, arg, arg_len);
     free(arg);
     return (arg_len);
 }
 
-int my_vsprintf_concat_c(char *str, va_list ap)
+static int my_vsprintf_concat_c(char *str, va_list ap)
 {
     char arg = va_arg(ap, int);
     int str_len = 0;
@@ -63,8 +63,8 @@ int my_vsprintf_concat_data(char *str, char spec, va_list ap)
     concat_fns[1] = my_vsprintf_concat_di;
     concat_fns[2] = my_vsprintf_concat_di;
     concat_fns[3] = my_vsprintf_concat_c;
-    if (my_memchr("sdic", spec, -1)) {
-        index = (char *)my_memchr(flags, spec, -1) - flags;
+    if (my_strchr("sdic", spec)) {
+        index = (char *)my_strchr(flags, spec) - flags;
         return (concat_fns[index](str, ap));
     } else {
         str[len] = '%';

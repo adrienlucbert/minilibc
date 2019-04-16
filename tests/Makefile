@@ -28,18 +28,18 @@ CFLAGS		=	-I../include -L../lib -lmyth -lm
 all:	$(NAME)
 
 $(NAME):	$(OBJ)
-	$(MAKE) -C ../lib/math
+	$(MAKE) -C ../lib/mymath
 	gcc -o $(NAME) $(OBJ) $(CFLAGS)
 	$(MAKE) clean
 	clear
 	./$(NAME)
 
 clean:
-	$(MAKE) clean -C ../lib/math
+	$(MAKE) clean -C ../lib/mymath
 	rm -f $(OBJ)
 
 fclean:	clean
-	$(MAKE) fclean -C ../lib/math
+	$(MAKE) fclean -C ../lib/mymath
 	rm -f $(NAME)
 
 re:	fclean all

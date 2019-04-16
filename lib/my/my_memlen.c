@@ -7,15 +7,16 @@
 
 #include "my.h"
 
-int my_memlen(void const *ptr, size_t size)
+size_t my_memlen(void const *ptr, size_t size)
 {
     char *c_ptr = (char *)ptr;
     size_t len = 0;
 
     if (ptr == NULL)
         return (0);
-    while (c_ptr[len]) {
-        len += size;
+    while (*c_ptr) {
+        c_ptr += size;
+        ++len;
     }
-    return (len / size);
+    return (len);
 }
